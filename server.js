@@ -6,13 +6,13 @@ const server = http.createServer((req, res) => {
 
     if (req.url === '/') {
         res.statusCode = 200;
-        res.end('Welcome to Node Server');
+        res.end('Welcome message');
     } else if (req.url === '/about') {
         res.statusCode = 200;
-        res.end('About Page');
+        res.end('About page');
     } else if (req.url === '/contact') {
         res.statusCode = 200;
-        res.end('Contact Page');
+        res.end('Contact page');
     } else {
         res.statusCode = 404;
         res.end('404 Error Message');
@@ -21,6 +21,5 @@ const server = http.createServer((req, res) => {
 
 const PORT = 3000;
 server.listen(PORT, () => {
-    console.log(`Run: node server.js`);
-    console.log(`Server is running at http://localhost:${PORT}/`);
+    console.log(`Server is running on custom port ${PORT}: http://localhost:${PORT}/`);
 });

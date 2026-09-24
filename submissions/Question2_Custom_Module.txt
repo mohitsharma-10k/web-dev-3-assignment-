@@ -1,0 +1,87 @@
+// =============================================================================
+// Lab 1 - Question 2: Custom Module Creation & Reusability (1 mark)
+// =============================================================================
+// Requirements:
+// - Create a custom module such as: isEven
+// - Export functionality using: module.exports
+// - Import the module into another file using: require()
+// - Demonstrate module reusability with proper examples
+// =============================================================================
+
+/*
+-----------------------------------------------------------------------------
+FILE 1: ./modules/isEven.js (Custom Module Definition)
+-----------------------------------------------------------------------------
+const isEven = (number) => {
+    return number % 2 === 0;
+};
+
+// Exporting functionality using module.exports
+module.exports = isEven;
+-----------------------------------------------------------------------------
+*/
+
+/*
+-----------------------------------------------------------------------------
+FILE 2: app.js (Consuming & Demonstrating Module Reusability)
+-----------------------------------------------------------------------------
+// Importing the custom module using require()
+const isEven = require('./modules/isEven');
+
+console.log("=== Demonstrating Custom Module Reusability: isEven ===");
+
+// Example 1: Testing individual numbers
+const testNumbers = [0, 4, 7, 10, -2, -9, 100];
+testNumbers.forEach(num => {
+    console.log(`Checking if ${num} is even: ${isEven(num)}`);
+});
+
+// Example 2: Reusing module to filter an array of numbers
+const numbersList = [12, 15, 22, 33, 48, 55, 60];
+const evenNumbers = numbersList.filter(isEven);
+console.log("\nOriginal List:", numbersList);
+console.log("Filtered Even Numbers:", evenNumbers);
+-----------------------------------------------------------------------------
+*/
+
+// Self-contained runnable implementation:
+const isEven = (number) => {
+    return number % 2 === 0;
+};
+module.exports = isEven;
+
+// Demonstration of reusability:
+console.log("=== Demonstrating Custom Module Reusability: isEven ===");
+
+// Example 1: Testing individual numbers (positive, negative, zero)
+const testNumbers = [0, 4, 7, 10, -2, -9, 100];
+testNumbers.forEach(num => {
+    console.log(`Checking if ${num} is even: ${isEven(num)}`);
+});
+
+// Example 2: Reusing the module function to filter numbers in an array
+const numbersList = [12, 15, 22, 33, 48, 55, 60];
+const evenNumbers = numbersList.filter(isEven);
+console.log("\nOriginal List:", numbersList);
+console.log("Filtered Even Numbers:", evenNumbers);
+
+/*
+=============================================================================
+SAMPLE TERMINAL COMMAND & OUTPUT
+=============================================================================
+Command: node app.js
+
+Output:
+=== Demonstrating Custom Module Reusability: isEven ===
+Checking if 0 is even: true
+Checking if 4 is even: true
+Checking if 7 is even: false
+Checking if 10 is even: true
+Checking if -2 is even: true
+Checking if -9 is even: false
+Checking if 100 is even: true
+
+Original List: [ 12, 15, 22, 33, 48, 55, 60 ]
+Filtered Even Numbers: [ 12, 22, 48, 60 ]
+=============================================================================
+*/
