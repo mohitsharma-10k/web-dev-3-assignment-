@@ -1,26 +1,8 @@
-// =============================================================================
-// Lab 1 - Question 3: Basic HTTP Server using http Module (1 mark)
-// =============================================================================
-// Requirements:
-// - Create a server using the built-in http module
-// - Run the server on a custom port (e.g., 3000)
-// - Create multiple routes such as:
-//     /           -> Welcome message
-//     /about      -> About page
-//     /contact    -> Contact page
-//     Invalid     -> 404 Error Message
-// - Display different responses for different URLs
-// - Use browser or Postman to test routes
-// =============================================================================
-
-// File: server.js
 const http = require('http');
 
-// Create HTTP server
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
 
-    // Route handling
     if (req.url === '/') {
         res.statusCode = 200;
         res.end('Welcome message');
@@ -36,37 +18,7 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Run server on custom port 3000
 const PORT = 3000;
 server.listen(PORT, () => {
     console.log(`Server is running on custom port ${PORT}: http://localhost:${PORT}/`);
 });
-
-/*
-=============================================================================
-HOW TO RUN AND TEST (Browser / Postman / curl)
-=============================================================================
-Command to Start Server:
-   node server.js
-
-Terminal Log:
-   Server is running on custom port 3000: http://localhost:3000/
-
-Testing Routes:
-1) Route: http://localhost:3000/
-   Status: 200 OK
-   Response: Welcome message
-
-2) Route: http://localhost:3000/about
-   Status: 200 OK
-   Response: About page
-
-3) Route: http://localhost:3000/contact
-   Status: 200 OK
-   Response: Contact page
-
-4) Route: http://localhost:3000/invalid-page (Invalid Route)
-   Status: 404 Not Found
-   Response: 404 Error Message
-=============================================================================
-*/

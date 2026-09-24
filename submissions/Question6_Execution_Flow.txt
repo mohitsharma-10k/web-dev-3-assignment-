@@ -1,17 +1,3 @@
-// =============================================================================
-// Lab 1 - Question 6: Execution Flow & Console Analysis (0.5 marks)
-// =============================================================================
-// Requirements:
-// Use console.log() statements to:
-// - Observe execution order
-// - Debug file operations
-// - Analyze server requests
-// - Track CLI inputs
-// - Display logs before and after major operations
-// - Observe synchronous vs asynchronous behavior in Node.js
-// =============================================================================
-
-// File: executionFlow.js
 const fs = require('fs');
 const path = require('path');
 
@@ -19,9 +5,7 @@ console.log("==================================================");
 console.log(" LAB 1 - TASK 6: EXECUTION FLOW & CONSOLE ANALYSIS");
 console.log("==================================================\n");
 
-// ----------------------------------------------------
 // 1. TRACK CLI INPUTS
-// ----------------------------------------------------
 console.log(">>> [SECTION 1: TRACKING CLI INPUTS]");
 console.log("[INFO] Raw process.argv:", process.argv);
 const cliArgs = process.argv.slice(2);
@@ -31,22 +15,18 @@ if (cliArgs.length > 0) {
         console.log(`  [ARG ${index + 1}]: ${arg}`);
     });
 } else {
-    console.log("  [ARG]: No extra CLI arguments provided. (e.g. node executionFlow.js debug dev)");
+    console.log("  [ARG]: No extra CLI arguments provided.");
 }
 console.log("");
 
-// ----------------------------------------------------
 // 2. SYNCHRONOUS VS ASYNCHRONOUS EXECUTION ORDER
-// ----------------------------------------------------
 console.log(">>> [SECTION 2: OBSERVING SYNC VS ASYNC EXECUTION ORDER]");
 console.log("[SYNC 1] Starting synchronous execution sequence...");
 
-// Asynchronous timer operation (Event Loop - Timers phase)
 setTimeout(() => {
     console.log("[ASYNC 3] setTimeout (0ms) callback executed via Event Loop");
 }, 0);
 
-// Asynchronous setImmediate
 setImmediate(() => {
     console.log("[ASYNC 4] setImmediate callback executed via Event Loop");
 });
@@ -54,9 +34,7 @@ setImmediate(() => {
 console.log("[SYNC 2] Continuing synchronous execution (blocking flow)...");
 console.log("[SYNC 3] Synchronous block finished. Control passed to Node.js event loop.\n");
 
-// ----------------------------------------------------
 // 3. DEBUGGING FILE OPERATIONS WITH BEFORE/AFTER LOGS
-// ----------------------------------------------------
 console.log(">>> [SECTION 3: DEBUGGING FILE OPERATIONS (BEFORE & AFTER LOGS)]");
 const sampleFile = path.join(__dirname, 'debug_sample.txt');
 const sampleContent = 'Debugging Node.js file operations with console logging.';
@@ -72,16 +50,14 @@ fs.writeFile(sampleFile, sampleContent, (err) => {
     }
     console.log(`[FS-DEBUG] [AFTER] File written successfully in ${writeDuration}ms.`);
 
-    // Read the file back to verify
     console.log(`[FS-DEBUG] [BEFORE] Reading file: "${sampleFile}"`);
     fs.readFile(sampleFile, 'utf8', (readErr, data) => {
         if (readErr) {
             console.error("[FS-DEBUG] [ERROR] Error reading file:", readErr.message);
             return;
         }
-        console.log(`[FS-DEBUG] [AFTER] File read completed. Content length: ${data.length} chars. Data: "${data}"`);
+        console.log(`[FS-DEBUG] [AFTER] File read completed. Content length: ${data.length} chars.`);
 
-        // Clean up sample file
         console.log(`[FS-DEBUG] [BEFORE] Deleting sample file: "${sampleFile}"`);
         fs.unlink(sampleFile, (unlinkErr) => {
             if (unlinkErr) {
@@ -90,23 +66,19 @@ fs.writeFile(sampleFile, sampleContent, (err) => {
                 console.log("[FS-DEBUG] [AFTER] Cleanup complete. File deleted successfully.\n");
             }
 
-            // Trigger server request analysis after file operations complete
             analyzeServerRequests();
         });
     });
 });
 
-// ----------------------------------------------------
 // 4. ANALYZING SERVER REQUESTS
-// ----------------------------------------------------
 function analyzeServerRequests() {
     console.log(">>> [SECTION 4: ANALYZING SERVER REQUEST LIFECYCLE]");
     
-    // Simulated incoming request objects
     const simulatedRequests = [
         { method: 'GET', url: '/', clientIp: '127.0.0.1' },
         { method: 'GET', url: '/about', clientIp: '192.168.1.15' },
-        { method: 'POST', url: '/submit', clientIp: '10.0.0.2', body: { user: 'Alice' } },
+        { method: 'POST', url: '/submit', clientIp: '10.0.0.2' },
         { method: 'GET', url: '/unknown-route', clientIp: '172.16.0.4' }
     ];
 
@@ -114,7 +86,6 @@ function analyzeServerRequests() {
         const timestamp = new Date().toISOString();
         console.log(`[REQ ${idx + 1}] [${timestamp}] Incoming ${req.method} request to: ${req.url} from ${req.clientIp}`);
         
-        // Simulating request route resolution and status determination
         let statusCode = 200;
         let responseMsg = '';
 
@@ -137,56 +108,3 @@ function analyzeServerRequests() {
     console.log(" EXECUTION FLOW & CONSOLE ANALYSIS FINISHED");
     console.log("==================================================");
 }
-
-/*
-=============================================================================
-SAMPLE TERMINAL COMMAND & OUTPUT
-=============================================================================
-Command: node executionFlow.js testArg1 testArg2
-
-Output:
-==================================================
- LAB 1 - TASK 6: EXECUTION FLOW & CONSOLE ANALYSIS
-==================================================
-
->>> [SECTION 1: TRACKING CLI INPUTS]
-[INFO] Raw process.argv: [
-  'C:\\Program Files\\nodejs\\node.exe',
-  'D:\\Code\\New folder\\smart-utility-toolkit\\smart-utility-toolkit\\executionFlow.js',
-  'testArg1',
-  'testArg2'
-]
-[INFO] Parsed Command Line Arguments count: 2
-  [ARG 1]: testArg1
-  [ARG 2]: testArg2
-
->>> [SECTION 2: OBSERVING SYNC VS ASYNC EXECUTION ORDER]
-[SYNC 1] Starting synchronous execution sequence...
-[SYNC 2] Continuing synchronous execution (blocking flow)...
-[SYNC 3] Synchronous block finished. Control passed to Node.js event loop.
-
->>> [SECTION 3: DEBUGGING FILE OPERATIONS (BEFORE & AFTER LOGS)]
-[FS-DEBUG] [BEFORE] Attempting to write file: "D:\Code\New folder\smart-utility-toolkit\smart-utility-toolkit\debug_sample.txt"
-[ASYNC 3] setTimeout (0ms) callback executed via Event Loop
-[ASYNC 4] setImmediate callback executed via Event Loop
-[FS-DEBUG] [AFTER] File written successfully in 1ms.
-[FS-DEBUG] [BEFORE] Reading file: "D:\Code\New folder\smart-utility-toolkit\smart-utility-toolkit\debug_sample.txt"
-[FS-DEBUG] [AFTER] File read completed. Content length: 55 chars. Data: "Debugging Node.js file operations with console logging."
-[FS-DEBUG] [BEFORE] Deleting sample file: "D:\Code\New folder\smart-utility-toolkit\smart-utility-toolkit\debug_sample.txt"
-[FS-DEBUG] [AFTER] Cleanup complete. File deleted successfully.
-
->>> [SECTION 4: ANALYZING SERVER REQUEST LIFECYCLE]
-[REQ 1] [2026-09-24T16:44:05.909Z] Incoming GET request to: / from 127.0.0.1
-[RES 1] [STATUS 200] Logged response for /: "Welcome message sent"
-[REQ 2] [2026-09-24T16:44:05.910Z] Incoming GET request to: /about from 192.168.1.15
-[RES 2] [STATUS 200] Logged response for /about: "About page content served"
-[REQ 3] [2026-09-24T16:44:05.910Z] Incoming POST request to: /submit from 10.0.0.2
-[RES 3] [STATUS 201] Logged response for /submit: "Data submitted successfully"
-[REQ 4] [2026-09-24T16:44:05.910Z] Incoming GET request to: /unknown-route from 172.16.0.4
-[RES 4] [STATUS 404] Logged response for /unknown-route: "Route not found"
-
-==================================================
- EXECUTION FLOW & CONSOLE ANALYSIS FINISHED
-==================================================
-=============================================================================
-*/

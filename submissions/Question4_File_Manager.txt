@@ -1,47 +1,30 @@
-// =============================================================================
-// Lab 1 - Question 4: File Manager using fs Module (1 mark)
-// =============================================================================
-// Requirements:
-// - Implement file operations: Create File, Read File, Update File, Delete File
-// - Use methods: writeFile(), readFile(), appendFile(), unlink()
-// - Display success/error messages in terminal
-// - Handle missing file errors gracefully
-// =============================================================================
-
-// File: fileManager.js
 const fs = require('fs');
 const fileName = 'test.txt';
 
-// 1. Create File using fs.writeFile()
 console.log('Creating File...');
 fs.writeFile(fileName, 'Hello Node.js\n', (err) => {
     if (err) return console.error('Error creating file:', err);
     console.log('File Created');
     
-    // 2. Read File using fs.readFile()
     console.log('Reading File');
     fs.readFile(fileName, 'utf8', (err, data) => {
         if (err) return console.error('Error reading file:', err);
         console.log(data.trim());
         
-        // 3. Update File using fs.appendFile()
         console.log('Updating File...');
         fs.appendFile(fileName, 'Learning FS Module\n', (err) => {
             if (err) return console.error('Error updating file:', err);
             console.log('File Updated');
             
-            // Read updated content
             fs.readFile(fileName, 'utf8', (err, updatedData) => {
                 if (err) return console.error('Error reading updated file:', err);
                 console.log(updatedData.trim());
                 
-                // 4. Delete File using fs.unlink()
                 console.log('Deleting File...');
                 fs.unlink(fileName, (err) => {
                     if (err) return console.error('Error deleting file:', err);
                     console.log('File Deleted');
 
-                    // 5. Demonstrate Graceful Missing File Error Handling
                     console.log('\nTesting Missing File Error Handling...');
                     fs.readFile(fileName, 'utf8', (err, missingData) => {
                         if (err) {
@@ -59,26 +42,3 @@ fs.writeFile(fileName, 'Hello Node.js\n', (err) => {
         });
     });
 });
-
-/*
-=============================================================================
-SAMPLE TERMINAL COMMAND & OUTPUT
-=============================================================================
-Command: node fileManager.js
-
-Output:
-Creating File...
-File Created
-Reading File
-Hello Node.js
-Updating File...
-File Updated
-Hello Node.js
-Learning FS Module
-Deleting File...
-File Deleted
-
-Testing Missing File Error Handling...
-Graceful Error Handling: File not found (ENOENT) - The file was deleted or does not exist.
-=============================================================================
-*/

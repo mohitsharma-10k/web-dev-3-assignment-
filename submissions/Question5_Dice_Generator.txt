@@ -1,42 +1,11 @@
-// =============================================================================
-// Lab 1 - Question 5: Random Dice Generator using crypto Module (0.5 marks)
-// =============================================================================
-// Requirements:
-// - Create a dice simulator that generates random numbers from 1-6
-// - Use the crypto module for randomness generation
-// - Display random dice values in terminal (Example Output: Dice Rolled: 4)
-// - Simulate multiple dice rolls using loops
-// =============================================================================
-
-// File: dice.js
 const crypto = require('crypto');
 
-// Function to roll a 6-sided dice using crypto module
 function rollDice() {
-    // crypto.randomInt(min, max) generates a cryptographically secure random integer
-    // where min is inclusive (1) and max is exclusive (7) -> produces 1, 2, 3, 4, 5, or 6
     const result = crypto.randomInt(1, 7); 
     console.log(`Dice Rolled: ${result}`);
 }
 
-// Simulate multiple dice rolls using a loop
 console.log("Rolling dice 5 times using loops:");
 for (let i = 1; i <= 5; i++) {
     rollDice();
 }
-
-/*
-=============================================================================
-SAMPLE TERMINAL COMMAND & OUTPUT
-=============================================================================
-Command: node dice.js
-
-Output:
-Rolling dice 5 times using loops:
-Dice Rolled: 4
-Dice Rolled: 2
-Dice Rolled: 6
-Dice Rolled: 1
-Dice Rolled: 5
-=============================================================================
-*/
